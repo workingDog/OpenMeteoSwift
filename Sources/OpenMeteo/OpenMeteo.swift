@@ -529,6 +529,24 @@ public struct CurrentWeather: Decodable, Sendable, Equatable {
         case weatherCode = "weathercode"
         case isDay
     }
+    
+    public init (time: Date, temperature: Double, windSpeed: Double, windDirection: Double, weatherCode: WeatherCode, isDay: Bool) {
+        self.time = time
+        self.temperature = temperature
+        self.windSpeed = windSpeed
+        self.windDirection = windDirection
+        self.weatherCode = weatherCode
+        self.isDay = isDay
+    }
+    
+    public init () {
+        self.time = Date()
+        self.temperature = 0.0
+        self.windSpeed = 0.0
+        self.windDirection = 0.0
+        self.weatherCode = WeatherCode.unknown
+        self.isDay = true
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -649,6 +667,34 @@ public struct WeatherResponse: Decodable, Sendable, HasDailySeries, HasHourlySer
         case hourlyUnits
         case hourlyValues = "hourly"
         case currentWeather
+    }
+    
+    public init(
+        latitude: Double = 0,
+        longitude: Double = 0,
+        utcOffsetSeconds: Int = 0,
+        timezone: Timezone = Timezone("gmt"),
+        timezoneAbbreviation: String = "",
+        generationtimeMs: Double = 0,
+        elevation: Double? = nil,
+        dailyUnits: [String: Unit] = [:],
+        dailyValues: [String: [Double?]] = [:],
+        hourlyUnits: [String: Unit] = [:],
+        hourlyValues: [String: [Double?]] = [:],
+        currentWeather: CurrentWeather? = nil
+    ) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.utcOffsetSeconds = utcOffsetSeconds
+        self.timezone = timezone
+        self.timezoneAbbreviation = timezoneAbbreviation
+        self.generationtimeMs = generationtimeMs
+        self.elevation = elevation
+        self.dailyUnits = dailyUnits
+        self.dailyValues = dailyValues
+        self.hourlyUnits = hourlyUnits
+        self.hourlyValues = hourlyValues
+        self.currentWeather = currentWeather
     }
 
     public init(from decoder: Decoder) throws {
