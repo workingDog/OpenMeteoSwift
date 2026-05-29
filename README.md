@@ -26,9 +26,11 @@ let forecast = try await openMeteo.forecast {
         Forecast.Daily.temperature2mMax,
         Forecast.Daily.temperature2mMin
     ]
-    $0.windSpeedUnit = .knots
+    $0.hourly = [Forecast.Hourly.temperature2m]
+    $0.windSpeedUnit = .metresPerSecond
     $0.timezone = .auto
     $0.pastDays = 1
+    $0.currentWeather = true
 }
 
 if let maxTemperature = forecast.daily[Forecast.Daily.temperature2mMax] {
